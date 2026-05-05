@@ -6,7 +6,11 @@ class Game {
   }
 
   start() {
-    // создаём canvas
+    if (!window.getPlayer || !window.updateInput) {
+      console.error('input.js не подключён или функции не доступны');
+      return;
+    }
+
     this.canvas = document.createElement('canvas');
     this.canvas.width = 800;
     this.canvas.height = 600;
@@ -14,23 +18,16 @@ class Game {
 
     this.ctx = this.canvas.getContext('2d');
 
-    // получаем начальное состояние игрока
-    this.playerState = getPlayer();
+    this.playerState = window.getPlayer();
 
     this.update();
   }
 
   update() {
     const gameLoop = () => {
-      // === INPUT ===
-      this.playerState = updateInput();
+      this.playerState = window.updateInput();
 
-      // === LOGIC ===
-      // тут можно добавить физику, коллизии и т.д.
-
-      // === RENDER ===
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
       this.drawPlayer();
 
       requestAnimationFrame(gameLoop);
@@ -51,4 +48,4 @@ class Game {
 }
 
 window.game = new Game();
-game.start();
+window.game.start();
