@@ -1,5 +1,3 @@
-import { updateInput, getPlayer } from './input.js';
-
 class Game {
   constructor() {
     this.canvas = null;
@@ -52,5 +50,5 @@ class Game {
   }
 }
 
-const game = new Game();
+window.game = new Game();
 game.start();
